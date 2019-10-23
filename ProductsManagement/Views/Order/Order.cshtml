@@ -1,0 +1,28 @@
+﻿@model OrderVM
+
+<h3>Order</h3>
+
+<div class="card text-center">
+  <div class="card-header border-info">
+    <h2>Are You Sure You Want To Order This Product ?</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">@Model.product.description</h5>
+    <p class="card-text">
+      @Html.DisplayNameFor(p => p.product.price) = @Model.product.price
+      @Html.DisplayNameFor(p => p.product.quantity) = @Model.product.quantity
+    </p>
+</div>
+  <div class="card-footer text-muted">
+    <form asp-controller="Order" asp-action="PostOrder" method="post">
+      <label>Choose the ammount you want to order :</label>
+      <input class="form-control" asp-for="quantity" />
+      <span asp-validation-for="quantity" class="text-danger"></span>
+      <input type="hidden" asp-for="product.id" />
+      <p>
+        <button type="submit" class="btn btn-info">Place Order</button>
+      </p>
+    </form>
+  </div>
+</div>
+

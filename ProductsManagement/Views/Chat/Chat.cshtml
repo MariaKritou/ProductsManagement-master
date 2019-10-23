@@ -1,0 +1,68 @@
+﻿@model User
+
+@{
+  ViewData["Title"] = "Chat";
+}
+
+
+@{
+  //var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+  //var userName = Model.username;
+}
+
+<div class="col-6">
+  <div class="card">
+    <div class="card-header bg-primary text-white"><h3>Chat box</h3></div>
+    <div class="card-body bg-lightgrey">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <ul id="messagesList" class="list-unstyled">
+                <li class="d-flex justify-content-end">
+                  <div class="card bg-primary rounded w-50 z-depth-0 mb-2">
+                    <div class="card-body p-2">
+                      <p class="card-text text-white">i like watermelooooon</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-unstyled d-flex justify-content-start">
+                  <div class="card float-left bg-light rounded w-50 z-depth-0 mb-2">
+                    <div class="card-body p-2">
+                      <p class="card-text text-black">i like mango</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-unstyled d-flex justify-content-end">
+                  <div class="card bg-primary rounded w-25 z-depth-0 mb-2">
+                    <div class="card-body p-2">
+                      <p class="card-text text-white">i like kiwi</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="hidden" id="userInput" value="@Model.username">
+        <input type="text" class="form-control border-info" placeholder="Input message..." id="messageInput">
+        <div class="input-group-append">
+          <span class="btn border-info bg-white text-primary hover-color-darkblue" type="button" id="sendButton">
+            <i class="fab fa-telegram-plane"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+@section Scripts
+{
+  <script src="~/js/chat.js"></script>
+}
+
+

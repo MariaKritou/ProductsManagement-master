@@ -1,0 +1,108 @@
+﻿@model List<Product>
+@{
+  ViewData["Title"] = "Index";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@(
+  Html.DevExtreme().DataGrid<Product>()
+    .ID("gridContainer")
+    .ShowBorders(true)
+    .ColumnChooser(c => c.Enabled(true))
+    .HeaderFilter(headerFilter => headerFilter.Visible(true))
+    .GroupPanel(groupPanel => groupPanel.Visible(true))
+    .AllowColumnReordering(true)
+    .SearchPanel(searchPanel => searchPanel.Visible(true))
+    .DataSource(d => d.Mvc().Controller("ProductApi").LoadAction("productsJson"))
+    //.DataSource(Model)
+    .RemoteOperations(true)
+    .Selection(s => s.Mode(SelectionMode.Single))
+    .Paging(paging => paging.PageSize(10))
+    .Pager(pager =>
+    {
+      pager.ShowPageSizeSelector(true);
+      pager.AllowedPageSizes(new[] { 5, 10, 20 });
+      pager.ShowInfo(true);
+    })
+    .Summary(s => s.TotalItems(items =>
+    {
+      items.AddFor(m => m.price).SummaryType(SummaryType.Avg);
+      items.AddFor(m => m.quantity).SummaryType(SummaryType.Sum);
+    }))
+    .Columns(columns =>
+    {
+      columns.AddFor(m => m.id);
+      columns.AddFor(m => m.description);
+
+      columns.AddFor(m => m.price)
+        .Format(Format.Currency)
+        .HeaderFilter(filter => filter.DataSource(new[]
+        {
+          new { text = "Less than $150", value = new object[] { "price", "<", 150 }},
+          new { text = "$150 - $250", value = new object[] { new object[] { "price", ">=", 150 }, new object[] { "price", "<", 250 }}},
+          new { text = "$250 - $400", value = new object[] { new object[] { "price", ">=", 250 }, new object[] { "price", "<", 400 }}},
+          new { text = "$400 - $500", value = new object[] { new object[] { "price", ">=", 400}, new object[] { "price", "<", 500}}},
+          new { text = "Greater than $500", value = new object[] { "price", ">=", 500 }}
+        }));
+
+      columns.AddFor(m => m.quantity)
+        .HeaderFilter(filter => filter.DataSource(new[]
+        {
+          new {text = "Less than 15",value = new object[] { "quantity", "<", 15 }},
+          new {text = "15 - 30",value = new object[] { new object[] { "quantity", ">=", 15 }, new object[] { "quantity", "<", 30 }}},
+          new {text = "30 - 40",value = new object[] { new object[] { "quantity", ">=", 30 }, new object[] { "quantity", "<", 40 }}},
+          new {text = "40 - 50",value = new object[] { new object[] { "quantity", ">=", 40}, new object[] { "quantity", "<", 50}}},
+          new {text = "Greater than 50",value = new object[] { "quantity", ">=", 50 }}
+        }));
+
+      columns.AddFor(m => m.arrivalDate)
+        .Format(Format.ShortDate);
+
+      columns.AddFor(m => m.id)
+        .CellTemplate(@<text>
+            <div>
+              @*<partial name="Partials/_DeleteBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Delete", id=this.id}' />
+                <partial name="Partials/_DetailsBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Details", id=Model.id}' />
+                <partial name="Partials/_EditBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Edit", id=Model.id}' />*@
+                <a href="/Product/Details/<%- value %>">Details</a>
+                <a href="/Product/Edit/<%- value %>">Edit</a>
+                <a href="/Product/Delete/<%- value %>">Delete</a>
+              </div>
+        </text>);
+})
+)
+
+@*<script type="text/javascript">
+      function refreshDataGrid() {
+          var dataGrid = $("#gridContainer").dxDataGrid("instance");
+        dataGrid.refresh();
+
+
+      }
+  </script>*@
+
+
+<div class="options">
+  <div class="caption">Options</div>
+  <div class="option">
+    @(
+      Html.DevExtreme().CheckBox()
+          .ID("autoExpand")
+          .Text("Expand All Groups")
+          .Value(true)
+          .OnValueChanged(@<text>
+                  function(data) {
+                  var dataGrid = $("#gridContainer").dxDataGrid("instance");
+                  dataGrid.option("grouping.autoExpandAll", data.value);
+                  }
+          </text>)
+    )
+  </div>
+</div>
+
+@section Scripts
+{
+  <script src="~/js/grid.js"></script>
+}
+

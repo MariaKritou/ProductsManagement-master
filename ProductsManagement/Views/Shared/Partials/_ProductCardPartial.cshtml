@@ -1,0 +1,37 @@
+﻿@model Product
+
+@*@functions
+{
+string descriptionUpper => Model.description[0].ToString().ToUpper() + Model.description.Substring(1);
+}*@
+
+@*<div class="card shadow border-warning">
+  <a class="card-header text-secondary h3" asp-controller="Product" asp-action="Details" asp-route-id="@Model.id">@Model.description</a>
+  <div class="card-body text-primary border-warning">
+      <p class="card-text">Price = @Model.price</p>
+      <p class="card-text">Quantity = @Model.quantity</p>
+  </div>
+  <div class="card-footer">
+      <partial name="Partials/_DeleteBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Delete", id=Model.id}' />
+      @*<partial name="Partials/_DetailsBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Details", id=Model.id}' />*@
+@*@*<partial name="Partials/_EditBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Edit", id=Model.id}' />
+      </div>
+  </div>*@
+
+
+<div class="card shadow rounded-0">
+  <div class="card-body">
+    <h4 class="card-title">
+      <a class="text-dark" asp-controller="Product" asp-action="Details" asp-route-id="@Model.id">@Model.descriptionUpper</a>
+    </h4>
+    <p class="card-text">
+      <div class="text-primary">Price = @Model.price</div>
+      <div class="text-primary">Quantity = @Model.quantity</div>
+    </p>
+    <p class="text-center">
+      <partial name="Partials/_DeleteBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Delete", id=Model.id}' />
+      <partial name="Partials/_EditBtnPartial" model='new ButtonPartialModel {controllerName="Product" , actionName="Edit", id=Model.id}' />
+    </p>
+  </div>
+</div>
+

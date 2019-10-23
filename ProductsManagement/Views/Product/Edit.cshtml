@@ -1,0 +1,36 @@
+﻿@model Product
+@{
+  ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<partial name="Partials/_ProductCardPartial" model="@Model" />
+
+<form asp-controller="Product" asp-action="PostEdit">
+  <div class="form-group">
+    <input type="hidden" class="form-control" asp-for="@Model.id">
+    <span asp-validation-for="id" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label for="description">@Html.DisplayNameFor(p => p.description)</label>
+    <input type="text" class="form-control" asp-for="@Model.description">
+    <span asp-validation-for="description" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label for="price">@Html.DisplayNameFor(p => p.price)</label>
+    <input type="number" class="form-control" asp-for="@Model.price">
+    <span asp-validation-for="price" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="quantity"></label>
+    <input asp-for="quantity" class="form-control">
+    <span asp-validation-for="quantity" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="arrivalDate"></label>
+    <input asp-for="arrivalDate" class="form-control">
+    <span asp-validation-for="arrivalDate" class="text-danger"></span>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -1,0 +1,193 @@
+﻿@model Dashboard
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<h1><u>@ViewData["Title"]</u></h1>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card shadow border-danger mb-3">
+            <div class="card-header border-danger">Header</div>
+            <div class="card-body text-danger">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">Abla Oubla Gaaaaaa</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card shadow border-dark mb-3">
+            <div class="card-header border-dark">Header</div>
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">Abla Oubla Gaaaaaa</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card shadow border-success mb-3">
+            <div class="card-header border-success">Header</div>
+            <div class="card-body text-success">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">Abla Oubla Gaaaaaa</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card shadow text-white bg-primary border-dark mb-3">
+            <div class="card-header h3">The meter from mordor...</div>
+            <div class="card-body">
+                  @(Html.DevExtreme().CircularGauge().ID("gauge")
+
+                  .Scale(s => s
+                              .StartValue(50)
+                              .EndValue(150)
+                              .TickInterval(10)
+                              .Label(l => l.UseRangeColors(true)))
+
+                  .RangeContainer(c => c.Palette(VizPalette.Bright)
+
+                  .Ranges(r =>
+                              {
+                              r.Add().StartValue(50).EndValue(90);
+                              r.Add().StartValue(90).EndValue(130);
+                              r.Add().StartValue(130).EndValue(150);
+                              }))
+
+                  .Title(t => t.Text("Meter of Stress").Font(f => f.Size(28)))
+                  )
+            </div>
+        </div>
+    </div>
+
+  <div class="col-sm-6">
+      <div class="card shadow text-white bg-transparent border-dark mb-3">
+          @*<div class="h3 card-header bg-info">Products Chart of Quantity & Price</div>*@
+          <div class="card-body">
+              <partial name="Partials/Charts/_QuantityPerProduct" model="@Model.product" />
+          </div>
+      </div>
+  </div>
+
+  <div class="col-sm-6">
+      <div class="card shadow text-white bg-primary border-dark mb-3">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+              <h5 class="card-title">Title</h5>
+              <p class="card-text">Abla Oubla Gaaaaaa</p>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-sm-6">
+      <div class="card shadow text-white bg-primary border-dark mb-3">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+              <h5 class="card-title">Title</h5>
+              <p class="card-text">Abla Oubla Gaaaaaa</p>
+          </div>
+      </div>
+  </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="row h-100">
+            <div class="col-lg-6 h-33 mb-3">
+                <div class="card shadow text-white bg-warning border-dark  h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 h-33 mb-3">
+                <div class="card shadow text-white bg-success border-dark  h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 h-33 mb-3">
+                <div class="card shadow text-white bg-primary border-dark h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 h-33 mb-3">
+                <div class="card shadow text-white bg-dark border-dark  h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-6 h-33 mb-3 ">
+                <div class="card shadow text-white bg-dark border-dark h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-6 h-33 mb-3">
+                <div class="card shadow bg-white border-dark h-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="row h-100">
+            <div class="col-lg-12 h-50  mb-3">
+                <div class="card shadow border-info  h-100">
+                    <div class="card-header text-center bg-success">Header</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 h-50 mb-3 ">
+                <div class="card shadow border-info  h-100">
+                    <div class="card-header text-center bg-warning">Header</div>
+                    <div class="card-body  text-center">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">Abla Oubla Gaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

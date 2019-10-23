@@ -1,0 +1,34 @@
+﻿@model User
+
+@{
+  ViewData["Title"] = "Index";
+  //var currentUser = ViewData["currentUser"];
+}
+
+
+@*emfanizv onoma*@
+@*<h2>current User : </h2> @currentUser*@
+@*<h2>current Claim : </h2> @User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value*@
+
+
+@*@ViewData["Message"]*@
+
+@*<h2>First Name : </h2> @Model.firstName*@
+
+
+<dl class="row dl-font-size">
+
+  <dt class="col-sm-3">@Html.DisplayNameFor(p => p.firstName) : </dt>
+  <dd class="col-sm-9">@Model.firstName</dd>
+
+  <dt class="col-sm-3">@Html.DisplayNameFor(p => p.lastName) : </dt>
+  <dd class="col-sm-9">@Model.lastName</dd>
+
+  <dt class="col-sm-3">@Html.DisplayNameFor(p => p.age) : </dt>
+  <dd class="col-sm-9">@Model.age</dd>
+
+</dl>
+<partial name="Partials/_EditBtnPartial" model='new ButtonPartialModel {controllerName="Profile" , actionName="Edit" ,id=@Model.id}' />
+<a asp-controller="Order" asp-action="orderHistory" class="btn text-info"><i class="fas fa-history"></i></a>
+<a asp-controller="Cart" asp-action="Index" class="btn text-danger"><i class="fas fa-shopping-cart"></i></a>
+

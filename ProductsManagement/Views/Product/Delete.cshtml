@@ -1,0 +1,17 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Do you want to Delete this product ?</h2>
+
+@*<span>Id: </span><span>@Model.id</span><br />
+<span>Description: </span><span>@Model.description</span><br />
+<span>Price: </span><span>@Model.price</span><br />*@
+
+<partial name="Partials/_ProductCardPartial" model="@Model" />
+
+<form asp-controller="Product" asp-action="PostDelete" method="post">
+    <input type="hidden" name="id" value="@Model.id"/>
+    <button type="submit" class="btn btn-warning">Delete</button>
+</form>

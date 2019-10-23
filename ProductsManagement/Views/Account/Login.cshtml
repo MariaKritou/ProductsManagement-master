@@ -1,0 +1,44 @@
+﻿@model LoginModel
+@{
+  ViewData["Title"] = "Login";
+}
+
+
+<form asp-controller="Account" asp-action="Login">
+
+  <div class="d-flex justify-content-center">
+    <div class="card bg-transparent">
+      <div class="card-body">
+        <h2 class="form-signin-heading text-center text-secondary">Please Login</h2><br />
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text border-warning">
+                <i class="fas fa-portrait fa-1x" style="color:darkturquoise"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control border-warning" asp-for="@Model.Username" placeholder="@Html.DisplayNameFor(p => p.Username)" />
+          </div>          
+          <span asp-validation-for="Username" class="text-danger"></span>
+          @*<input type="text" class="form-control border-warning" name="username" placeholder="Username" required="" />*@
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text border-warning">
+                <i class="fas fa-unlock-alt" style="color:darkturquoise"></i>
+              </span>
+            </div>
+            <input type="password" class="form-control border-warning" asp-for="@Model.Password" placeholder="@Html.DisplayNameFor(p => p.Password)" />
+            @*<input type="password" class="form-control border-warning" name="password" placeholder="Password" required="" />*@
+          </div>
+          <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button class="btn btn-lg btn-outline-warning float-right text-white" style="background-color:darkturquoise" type="submit">Login</button>
+      </div>
+    </div>
+  </div>
+  <a  asp-controller="Account" asp-action="Create">Not Yet A Member?</a>
+</form>
+@Html.ValidationMessage("LogOnError")
+

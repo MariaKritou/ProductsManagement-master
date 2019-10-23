@@ -1,0 +1,13 @@
+{
+  "version": " 1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.10.1",
+    "bootstrap": "^4.3.1",
+    "devextreme": "^19.1.5",
+    "devextreme-aspnet-data": "^2.4.3",
+    "jquery-validation": "^1.19.1",
+    "jquery-validation-unobtrusive": "^3.2.11"
+  }
+}

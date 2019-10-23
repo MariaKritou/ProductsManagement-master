@@ -1,0 +1,112 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - ProductsManagement</title>
+
+
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.css" asp-append-version="true" />
+
+  <link href="~/lib/devextreme/dist/css/dx.common.css" rel="stylesheet" />
+  <link href="~/lib/devextreme/dist/css/dx.light.css" rel="stylesheet" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+  <script src="~/lib/jquery/dist/jquery.js"></script>
+  <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+  <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js" asp-append-version="true"></script>
+  <script src="~/lib/devextreme/dist/js/dx.all.js"></script>
+
+  <script src="~/lib/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
+  <script src="~/lib/devextreme/dist/js/dx.aspnet.mvc.js"></script>
+
+  <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-md navbar-light bg-warning fixed-top">
+    <a class="navbar-brand nav-link" asp-controller="Dashboard" asp-action="Index">ProductsManagement</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard </a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Chat" asp-action="Chat">Chat </a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Charts</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-controller="Chart" asp-action="QuantityPerProduct">QuantityPerProduct</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-controller="DataGrid" asp-action="Index">DataGrid</a>
+            <a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a>
+            @*<a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-showCards="false">Products</a>*@
+            <div class="dropdown-divider"></div>
+            <form asp-controller="Product" asp-action="Index" class="form-inline my-2 my-lg-0">
+              <div class="dropdown-item input-group">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="filter">
+                <div class="input-group-append">
+                  <partial name="Partials/_SearchBtnPartial" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        @if (User.Identity.IsAuthenticated)
+        {
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-circle"></i> @User.Identity.Name
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+            </div>
+          </li>
+        }
+        else
+        {        
+         <li class="nav-item"><a class="nav-link float-right" asp-controller="Account" asp-action="Login"> <i class="fas fa-sign-in-alt"></i> Login</a></li>
+        }
+      </ul>
+    </div>
+  </nav>
+
+  <main role="main" class="container">
+
+    <div class="starter-template">
+      @RenderBody()
+      <footer>
+        <p>&copy; 2019 - ProductsManagement</p>
+      </footer>
+    </div>
+
+
+  </main>
+
+
+  <script>  
+    var baseUrl = "@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}")";
+    var connection = new signalR.HubConnectionBuilder().withUrl(baseUrl + "/chatHub").build();
+ </script>
+
+  @RenderSection("Scripts", required: false)
+
+  <script>connection.start();</script>
+</body>
+
+</html>
+

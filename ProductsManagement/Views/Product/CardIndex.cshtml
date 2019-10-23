@@ -1,0 +1,18 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "CardIndex";
+}
+
+<h2>CardIndex</h2>
+
+<div class="row">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div style="padding-bottom:15px;">
+                <partial name="Partials/_ProductCardPartial" model="@product" />
+            </div>
+        </div>       
+    }
+</div>

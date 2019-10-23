@@ -1,0 +1,8 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "QuantityPerProduct";
+}
+
+<h2>Quantity Chart of All Products</h2>
+
+<partial name="Partials/Charts/_QuantityPerProduct" model="@Model" />

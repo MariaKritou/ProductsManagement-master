@@ -1,0 +1,33 @@
+﻿@model List<Product>
+
+@(Html.DevExtreme().Chart().ID("chart").DataSource(Model)
+      .Series(s =>
+      {
+                s.Add()
+                  .ArgumentField(nameof(Product.description))
+                  .ValueField("quantity")
+                  .Name("Quantity")
+                  .Type(SeriesType.Bar)
+                  .Color("#ffaa66")
+                  .Label(l => l.Visible(true));
+                s.Add()
+                  .ArgumentField("description")
+                  .ValueField("price")
+                  .Name("Price")
+                  .Type(SeriesType.Line)
+                  .Color("red");
+      })
+
+      .Tooltip(t => t.Enabled(true))
+      .Title(t => t.Text("Products Price & Quantity"))
+      .Export(e => e.Enabled(true))
+
+      .Legend(l => l
+                    .VerticalAlignment(VerticalEdge.Bottom)
+                    .HorizontalAlignment(HorizontalAlignment.Center)
+                    .ItemTextPosition(Position.Right))
+))
+
+
+
+

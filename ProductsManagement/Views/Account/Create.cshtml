@@ -1,0 +1,37 @@
+﻿
+@model User
+@{
+  ViewData["Title"] = "CreateAccount";
+}
+
+<h2>CreateAccount</h2>
+
+
+<form asp-controller="Account" asp-action="PostCreate" method="post">
+  <div class="form-group">
+    <label asp-for="firstName"></label>
+    <input asp-for="firstName" class="form-control">
+    <span asp-validation-for="firstName" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="lastName"></label>
+    <input asp-for="lastName" class="form-control">
+    <span asp-validation-for="lastName" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="username"></label>
+    <input asp-for="username" class="form-control">
+    <span asp-validation-for="username" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="password"></label>
+    <input asp-for="password" class="form-control">
+    <span asp-validation-for="password" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="age"></label>
+    <input asp-for="age" class="form-control">
+    <span asp-validation-for="age" class="text-danger"></span>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
