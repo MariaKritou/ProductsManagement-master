@@ -60,16 +60,17 @@ namespace ProductsManagement.Controllers
        deserializedJson = JsonConversion();
 
       var searchProdId = deserializedJson.FirstOrDefault(x=>x.productId == id);
-
+     
+      var product = productRepository.getProductById(id);
       if (searchProdId == null)
       {
         var cart = new CartVM
         {
           productId = id,
           quantity = 1,
-          price = productRepository.getProductById(id).price,
-          description = productRepository.getProductById(id).description
-          //description = productRepository.getProductById(id).description
+          price = product.price,
+          description = product.description
+          
         };
 
         deserializedJson.Add(cart);
@@ -130,13 +131,17 @@ namespace ProductsManagement.Controllers
     //}
 
 
+    [HttpPost]
     public IActionResult BuyAll(List<CartVM> cart)
     {
-      foreach (var item in cart)
+      foreach (CartVM item in cart)
       {
+
+        var product = productRepository.getProductById(item.productId);
+
         var order = new Order
         {
-          product_id = item.productId,
+          product_id = product.id,
           user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
           creationDate = DateTime.Now,
           quantity = item.quantity
@@ -145,7 +150,7 @@ namespace ProductsManagement.Controllers
         orderRepository.placeOrder(order);
       }
 
-      return RedirectToAction("Index");
+      return RedirectToAction("orderHistory", "Order");
 
     }
 

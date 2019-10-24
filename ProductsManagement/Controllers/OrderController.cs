@@ -32,9 +32,9 @@ namespace ProductsManagement.Controllers
     public IActionResult PostOrder(OrderVM orderVM)
     {
       orderVM.product = productRepository.getProductById(orderVM.product.id);
+
       if (ModelState.IsValid)
-      {
-        
+      {        
         var order = new Order
         {
           product_id = orderVM.product.id,
