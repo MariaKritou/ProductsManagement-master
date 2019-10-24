@@ -38,29 +38,21 @@ namespace ProductsManagement.Controllers
       //var cart = new CartVM
       //{
       //  productId = deserializedJson.Select(i => i.productId).First(),
-       
+
       //};
-        
+
       return View(deserializedJson);
     }
 
 
     public IActionResult AddToCart(int id)
     {
-      //var cartJson = HttpContext.Session.GetString(SESSION_CART);
-
-      //List<CartVM> deserializedJson = new List<CartVM>();
-
-      //if (!String.IsNullOrEmpty(cartJson))
-      //{
-      //  deserializedJson = JsonConvert.DeserializeObject<List<CartVM>>(cartJson);
-      //}
 
       List<CartVM> deserializedJson = new List<CartVM>();
-       deserializedJson = JsonConversion();
+      deserializedJson = JsonConversion();
 
-      var searchProdId = deserializedJson.FirstOrDefault(x=>x.productId == id);
-     
+      var searchProdId = deserializedJson.FirstOrDefault(x => x.productId == id);
+
       var product = productRepository.getProductById(id);
       if (searchProdId == null)
       {
@@ -70,21 +62,22 @@ namespace ProductsManagement.Controllers
           quantity = 1,
           price = product.price,
           description = product.description
-          
+
         };
 
         deserializedJson.Add(cart);
       }
       else
       {
-        searchProdId.quantity++;        
+        searchProdId.quantity++;
       };
-      
+
       var serializedJson = JsonConvert.SerializeObject(deserializedJson);
 
       HttpContext.Session.SetString(SESSION_CART, serializedJson);
 
-      return RedirectToAction("Index", "Product", new { message = "Product added successfully!" });
+
+      return RedirectToAction("Index", "Product", new { message = $"Product {product.description} added successfully!" });
     }
 
 
@@ -167,5 +160,28 @@ namespace ProductsManagement.Controllers
       return new List<CartVM>();
     }
 
+    [HttpGet]
+    public IActionResult Test()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public IActionResult Test(TestVM[] testVM)
+    {
+
+
+
+      return View();
+    }
+
   }
+
+  public class TestVM
+  {
+    public string text { get; set; }
+    public string check { get; set; }
+    public int number { get; set; }
+  }
+
 }

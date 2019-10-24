@@ -9,11 +9,12 @@
 @{
   if (ViewData["message"] != null)
   {
-    <div class="card bg-success" style="width: 19rem;">
-      <div class="card-body">  
-        @ViewData["message"] 
-      </div>
-    </div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    <strong>@ViewData["message"]</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> 
   }
 }
 <br />

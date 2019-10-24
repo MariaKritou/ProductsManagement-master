@@ -1,4 +1,4 @@
-﻿@model List<CartVM>
+﻿@model IList<CartVM>
 
 @{
   ViewData["Title"] = "Index";
@@ -6,7 +6,7 @@
 
 <h2>Index</h2>
 
-<form asp-controller="Cart" asp-action="BuyAll" method="post">
+@*<body>
   <table class="table table-bordered" id="tblProducts">
     <thead>
       <tr>
@@ -17,32 +17,66 @@
         <th></th>
       </tr>
     </thead>
-
-
-    @foreach (var product in Model)
-    {
-      <tbody>
+    <tbody>
+      @foreach (var product in Model)
+      {
         <tr>
           <td>@product.productId</td>
           <td>@product.description</td>
           <td>@product.price</td>
           <td>@product.quantity</td>
           <td>
-            <input type="hidden" asp-for="@product.productId" />
-            <input type="hidden" asp-for="@product.quantity" />
             <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@product.productId" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>
-          </td>       
+          </td>
         </tr>
-      </tbody>
-    }
+
+      }
+    </tbody>
   </table>
-  <input type="submit" value="Buy All" />
-</form>
-@*<a asp-controller="Cart" asp-action="BuyAll" asp-route-id="@Model" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>*@
+  <input type="submit" id="btnBuy" value="Buy All" />
+
+  </body>*@
 
 
-@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+  <form asp-controller="Cart" asp-action="BuyAll" method="post">
+      <table class="table table-bordered" id="tblProducts">
+        <thead>
+          <tr>
+            <th>@Html.DisplayNameFor(p => p[0].productId)</th>
+            <th>@Html.DisplayNameFor(p => p[0].description)</th>
+            <th>@Html.DisplayNameFor(p => p[0].price)</th>
+            <th>@Html.DisplayNameFor(p => p[0].quantity)</th>
+            <th></th>
+          </tr>
+        </thead>
+
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+          <tbody>
+            <tr>
+              <td>
+              @Model[i].productId
+              <input type="hidden" asp-for="@Model[i].productId">
+              </td>
+              <td>@Model[i].description</td>
+              <td>@Model[i].price</td>
+              <td>
+                <input type="text" asp-for="@Model[i].quantity">
+              </td>
+              <td>
+                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model[i].productId" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        }
+      </table>
+      <input type="submit" value="Buy All" />
+    </form>
+
+
+
+  @*<script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
   <script type="text/javascript">
 
 
@@ -59,16 +93,15 @@
         products.push(product);
       });
 
+      //Send the JSON array to Controller using AJAX.
       $.ajax({
         type: "POST",
-        url: "/Cart/AddToCart",
+        url: "/Cart/BuyAll",
         data: JSON.stringify(products),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (r) {
           alert(r + " products inserted.");
         }
-
-
-
+ 
   </script>*@
