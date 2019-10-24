@@ -47,7 +47,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-menu" style="width:15rem" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" asp-controller="DataGrid" asp-action="Index">DataGrid</a>
             <a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a>
             @*<a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-showCards="false">Products</a>*@
@@ -70,8 +70,10 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-user-circle"></i> @User.Identity.Name
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" asp-controller="Cart" asp-action="Index" >My Cart</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
             </div>
