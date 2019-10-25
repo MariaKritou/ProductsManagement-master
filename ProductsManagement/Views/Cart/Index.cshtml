@@ -6,8 +6,8 @@
 
 <h2>Index</h2>
 
-@*<body>
-  <table class="table table-bordered" id="tblProducts">
+
+  @*<table class="table table-bordered" id="tblProducts">
     <thead>
       <tr>
         <th>@Html.DisplayNameFor(p => p[0].productId)</th>
@@ -33,9 +33,9 @@
       }
     </tbody>
   </table>
-  <input type="submit" id="btnBuy" value="Buy All" />
+  <input type="submit" id="btnBuy" value="Buy All" />*@
 
-  </body>*@
+ 
 
 
   <form asp-controller="Cart" asp-action="BuyAll" method="post">
@@ -75,15 +75,15 @@
     </form>
 
 
-
-  @*<script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
   <script type="text/javascript">
 
 
     $("body").on("click", "#btnBuy", function () {
+      console.log("on click");
       //Loop through the Table rows and build a JSON array.
       var products = new Array();
       $("#tblProducts TBODY TR").each(function () {
+         console.log("on click 2");
         var row = $(this);
         var product = {};
         product.productId = row.find("TD").eq(0).html();
@@ -92,6 +92,7 @@
         product.quantity = row.find("TD").eq(3).html();
         products.push(product);
       });
+      console.log(products);
 
       //Send the JSON array to Controller using AJAX.
       $.ajax({
@@ -103,5 +104,7 @@
         success: function (r) {
           alert(r + " products inserted.");
         }
- 
-  </script>*@
+      });
+      console.log(JSON.stringify(products));
+    });
+  </script>

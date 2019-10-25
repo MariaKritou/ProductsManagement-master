@@ -28,12 +28,24 @@ namespace ProductsManagement.Repositories
         //.execute();
         try
         {
-          context.createSpCommand("MARIADEMO.MAIN.PLACE_ORDER")
-          .addNumericInParam("A_PRODUCT_ID", order.product_id)
-          .addNumericInParam("USER_ID", order.user_id)
-          .addDateTimeInParam("CREATED_AT", order.creationDate)
-          .addNumericInParam("A_QUANTITY", order.quantity)
-          .execute();
+          var orderId = context.createSpCommand("MARIADEMO.MAIN.PLACE_ORDER")
+                        .addNumericInParam("A_USER_ID", order.user_id)
+                        .addDateTimeInParam("A_CREATED_AT", order.creationDate)
+                        .addNumericOutParam("A_ORDER_ID")
+                        .execute()
+                        .paramValue<int>("A_ORDER_ID");
+
+          foreach (var orderDetail  in order.orderDetails)
+          {
+            context.createSpCommand("MARIADEMO.MAIN.PLACE_ORDER_DETAILS")
+                  .addNumericInParam("A_ORDER_ID", orderId)
+                  .addNumericInParam("A_PRODUCT_ID", orderDetail.productId)
+                  .addNumericInParam("A_QUANTITY", orderDetail.quantity)
+                  .execute();
+          }
+    
+
+
         }
         catch (Exception ex)
         {
@@ -43,6 +55,18 @@ namespace ProductsManagement.Repositories
       
       });
     }
+
+    //public void placeOrderDetails(int productId, int orderId, int quantity)
+    //{
+    //  worker.run(context =>
+    //  {
+    //    context.createSpCommand("MARIADEMO.MAIN.PLACE_ORDER_DETAILS")
+    //     .addNumericInParam("A_ORDER_ID", orderId)
+    //     .addNumericInParam("A_PRODUCT_ID", productId)
+    //     .addNumericInParam("A_QUANTITY", quantity)
+    //     .execute();
+    //  });
+    //}
 
 
     public List<Order> getOrderByUserId(int id)

@@ -9,8 +9,8 @@ using ProductsManagement.Repositories;
 
 namespace ProductsManagement.Controllers
 {
-    public class OrderController : Controller
-    {
+  public class OrderController : Controller
+  {
 
     private readonly OrderRepository orderRepository;
     private readonly IProductRepository productRepository;
@@ -32,32 +32,40 @@ namespace ProductsManagement.Controllers
     public IActionResult PostOrder(OrderVM orderVM)
     {
       orderVM.product = productRepository.getProductById(orderVM.product.id);
-
+      
       if (ModelState.IsValid)
-      {        
+      {
         var order = new Order
         {
-          product_id = orderVM.product.id,
+
           user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
           creationDate = DateTime.Now,
-          quantity = orderVM.quantity
+          orderDetails = 
+          {
+            new OrderDetails
+            {
+              productId = orderVM.product.id,
+              quantity = orderVM.quantity
+            }
+          }
+         
         };
 
         orderRepository.placeOrder(order);
-       
+
         return Redirect("../Product/Index");
       }
 
-      return View("Order",orderVM);
+      return View("Order", orderVM);
     }
 
 
-    public IActionResult orderHistory()
+    public IActionResult OrderHistory()
     {
       var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-    
+
       return View(orderRepository.getOrderByUserId(id));
     }
 
-    }
+  }
 }

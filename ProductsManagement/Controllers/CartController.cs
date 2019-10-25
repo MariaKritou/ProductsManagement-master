@@ -125,25 +125,28 @@ namespace ProductsManagement.Controllers
 
 
     [HttpPost]
-    public IActionResult BuyAll(List<CartVM> cart)
+    public IActionResult BuyAll([FromBody]List<CartVM> cart)
     {
-      foreach (CartVM item in cart)
+      List<OrderDetails> orderDetails = cart.Select(cartItem => new OrderDetails
       {
+        productId = cartItem.productId,
+        quantity = cartItem.quantity
+      }).ToList();
 
-        var product = productRepository.getProductById(item.productId);
 
         var order = new Order
         {
-          product_id = product.id,
+          
           user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
           creationDate = DateTime.Now,
-          quantity = item.quantity
+          orderDetails = orderDetails
+
         };
 
         orderRepository.placeOrder(order);
-      }
+      
 
-      return RedirectToAction("orderHistory", "Order");
+      return Redirect("../Order/OrderHistory");
 
     }
 
