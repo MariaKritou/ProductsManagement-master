@@ -27,7 +27,13 @@ namespace ProductsManagement.Controllers
 
     public IActionResult Index()
     {
-      var deserializedJson = JsonConversion();
+      var deserializedJson = deserializeSessionCart();
+
+      foreach (var orderDetails in deserializedJson)
+      {
+        orderDetails.product = productRepository.getProductById(orderDetails.productId);
+
+      }
       //var productIds = deserializedJson.Select(i => i.productId).ToList();
 
       //var products = productRepository
@@ -48,35 +54,31 @@ namespace ProductsManagement.Controllers
     public IActionResult AddToCart(int id)
     {
 
-      List<CartVM> deserializedJson = new List<CartVM>();
-      deserializedJson = JsonConversion();
+      List<OrderDetails> deserializedJson = new List<OrderDetails>();
+      deserializedJson = deserializeSessionCart();
 
-      var searchProdId = deserializedJson.FirstOrDefault(x => x.productId == id);
+      var orderDetails = deserializedJson.FirstOrDefault(x => x.productId == id);
 
-      var product = productRepository.getProductById(id);
-      if (searchProdId == null)
+      if (orderDetails == null)
       {
-        var cart = new CartVM
+        orderDetails = new OrderDetails
         {
           productId = id,
-          quantity = 1,
-          price = product.price,
-          description = product.description
-
+          quantity = 1
         };
 
-        deserializedJson.Add(cart);
+        deserializedJson.Add(orderDetails);
       }
       else
       {
-        searchProdId.quantity++;
+        orderDetails.quantity++;
       };
 
       var serializedJson = JsonConvert.SerializeObject(deserializedJson);
 
       HttpContext.Session.SetString(SESSION_CART, serializedJson);
 
-
+      var product = productRepository.getProductById(id);
       return RedirectToAction("Index", "Product", new { message = $"Product {product.description} added successfully!" });
     }
 
@@ -94,7 +96,7 @@ namespace ProductsManagement.Controllers
 
       //deserializedJson.RemoveAll(i => i == id);
 
-      var deserializedJson = JsonConversion();
+      var deserializedJson = deserializeSessionCart();
       deserializedJson.RemoveAll(i => i.productId == id);
 
       var serializedJson = JsonConvert.SerializeObject(deserializedJson);
@@ -125,66 +127,39 @@ namespace ProductsManagement.Controllers
 
 
     [HttpPost]
-    public IActionResult BuyAll([FromBody]List<CartVM> cart)
+    public IActionResult BuyAll(List<OrderDetails> orderDetails)
     {
-      List<OrderDetails> orderDetails = cart.Select(cartItem => new OrderDetails
+
+      var order = new Order
       {
-        productId = cartItem.productId,
-        quantity = cartItem.quantity
-      }).ToList();
 
+        user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+        creationDate = DateTime.Now,
+        orderDetails = orderDetails
 
-        var order = new Order
-        {
-          
-          user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-          creationDate = DateTime.Now,
-          orderDetails = orderDetails
+      };
 
-        };
+      orderRepository.placeOrder(order);
 
-        orderRepository.placeOrder(order);
-      
 
       return Redirect("../Order/OrderHistory");
 
     }
 
 
-    private List<CartVM> JsonConversion()
+    private List<OrderDetails> deserializeSessionCart()
     {
       var cartJson = HttpContext.Session.GetString(SESSION_CART);
 
       if (!String.IsNullOrEmpty(cartJson))
       {
-        List<CartVM> deserializedJson = JsonConvert.DeserializeObject<List<CartVM>>(cartJson);
+        List<OrderDetails> deserializedJson = JsonConvert.DeserializeObject<List<OrderDetails>>(cartJson);
         return deserializedJson;
       }
-      return new List<CartVM>();
+      return new List<OrderDetails>();
     }
 
-    [HttpGet]
-    public IActionResult Test()
-    {
-      return View();
-    }
 
-    [HttpPost]
-    public IActionResult Test(TestVM[] testVM)
-    {
-
-
-
-      return View();
-    }
 
   }
-
-  public class TestVM
-  {
-    public string text { get; set; }
-    public string check { get; set; }
-    public int number { get; set; }
-  }
-
 }

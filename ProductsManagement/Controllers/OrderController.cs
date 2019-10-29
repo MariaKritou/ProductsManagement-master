@@ -23,16 +23,16 @@ namespace ProductsManagement.Controllers
 
     public IActionResult Order(int id)
     {
-      var orderVm = new OrderVM();
-      orderVm.product = productRepository.getProductById(id);
-      return View(orderVm);
+      var orderDetails = new OrderDetails();
+      orderDetails.product = productRepository.getProductById(id);
+      orderDetails.productId = id;
+      return View(orderDetails);
     }
 
     [HttpPost]
-    public IActionResult PostOrder(OrderVM orderVM)
+    public IActionResult PostOrder(OrderDetails orderDetails)
     {
-      orderVM.product = productRepository.getProductById(orderVM.product.id);
-      
+
       if (ModelState.IsValid)
       {
         var order = new Order
@@ -40,15 +40,11 @@ namespace ProductsManagement.Controllers
 
           user_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
           creationDate = DateTime.Now,
-          orderDetails = 
+          orderDetails = new List<OrderDetails>
           {
-            new OrderDetails
-            {
-              productId = orderVM.product.id,
-              quantity = orderVM.quantity
-            }
+           orderDetails
           }
-         
+
         };
 
         orderRepository.placeOrder(order);
@@ -56,7 +52,7 @@ namespace ProductsManagement.Controllers
         return Redirect("../Product/Index");
       }
 
-      return View("Order", orderVM);
+      return View("Order", orderDetails);
     }
 
 
@@ -64,7 +60,19 @@ namespace ProductsManagement.Controllers
     {
       var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-      return View(orderRepository.getOrderByUserId(id));
+      var orders = orderRepository.getOrderByUserId(id);
+
+      foreach (var order in orders)
+      {
+        order.orderDetails = orderRepository.getOrderDetailsByOrderId(order.id);
+
+        //foreach (var orderDetail in order.orderDetails)
+        //{
+        //  orderDetail.product = productRepository.getProductById(orderDetail.productId);
+        //}
+      }
+
+      return View(orders);
     }
 
   }

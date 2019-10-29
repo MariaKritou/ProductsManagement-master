@@ -1,4 +1,4 @@
-﻿@model OrderVM
+﻿@model OrderDetails
 
 <h3>Order</h3>
 
@@ -15,10 +15,10 @@
 </div>
   <div class="card-footer text-muted">
     <form asp-controller="Order" asp-action="PostOrder" method="post">
-      <label>Choose the ammount you want to order :</label>
+      <label>Choose the amount you want to order :</label>
       <input class="form-control" asp-for="quantity" />
       <span asp-validation-for="quantity" class="text-danger"></span>
-      <input type="hidden" asp-for="product.id" />
+      <input type="hidden" asp-for="productId" />
       <p>
         <button type="submit" class="btn btn-info">Place Order</button>
       </p>

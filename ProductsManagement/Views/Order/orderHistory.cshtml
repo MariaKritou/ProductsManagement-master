@@ -1,26 +1,52 @@
-﻿@model  List<Order>
+﻿@model List<Order>
 @{
-    ViewData["Title"] = "orderHistory";
+  ViewData["Title"] = "orderHistory";
 }
 
 <h2>Order History</h2>
 
-<table class="table table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Order ID</th>
-      <th scope="col">Product ID</th>
-      <th scope="col">Date Ordered</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var order in Model)
-    {
-    <tr>
-      <td>@order.id</td>
-      @*<td>@order.product_id</td>*@
-      <td>@order.creationDate</td>
-    </tr>
-    }
-    </tbody>
-  </table>
+
+@{int i = 0;}
+@foreach (var order in Model)
+{
+  if (@order.orderDetails.Count > 0)
+  {
+
+  <div class="card-group" style="width:50rem" id="accordion_@i">
+    <div class="card" id="card_@i">
+      <div class="card-heading bg-warning align-text-center">
+        <h4 class="card-title">
+          <a data-toggle="collapse" data-target="#collapseOne_@i" href="#collapseOne_@i">
+            @order.creationDate
+          </a>
+        </h4>
+      </div>
+      <div id="collapseOne_@i" class="card-collapse collapse in">
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+
+            @foreach (var detail in order.orderDetails)
+            {
+          <tbody>
+            <tr>
+              <td>@detail.productDescription</td>
+              <td>@detail.productPrice</td>
+              <td>@detail.quantity</td>
+            </tr>
+          </tbody>
+            }
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    i++;
+  }
+}

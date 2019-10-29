@@ -44,8 +44,6 @@ namespace ProductsManagement.Repositories
                   .execute();
           }
     
-
-
         }
         catch (Exception ex)
         {
@@ -71,18 +69,36 @@ namespace ProductsManagement.Repositories
 
     public List<Order> getOrderByUserId(int id)
     {
-      List<Order> order = null;
+      List<Order> orders = null;
 
       worker.run(context =>
       {
-         order = context
-        .createSpCommand("MARIADEMO.MAIN.GET_ORDER_BY_USER_ID")
-        .addCursorOutParam("RET_VAL")
-        .addNumericInParam("A_USER_ID", id)
-        .select<Order>();
+        orders = context
+       .createSpCommand("MARIADEMO.MAIN.GET_ORDER_BY_USER_ID")
+       .addCursorOutParam("RET_VAL")
+       .addNumericInParam("A_USER_ID", id)
+       .select<Order>();
+
       });
 
-      return order;
+      return orders;
+    }
+
+
+    public List<OrderDetails> getOrderDetailsByOrderId(int id)
+    {
+      List<OrderDetails> orderDetails = null;
+
+      worker.run(context =>
+      {
+        orderDetails = context
+         .createSpCommand("MARIADEMO.MAIN.GET_ORDER_DETAILS_BY_ORDER_ID")
+          .addCursorOutParam("RET_VAL")
+          .addNumericInParam("A_ORDER_ID", id)
+          .select<OrderDetails>();
+      });
+
+      return orderDetails;
     }
   }
 }

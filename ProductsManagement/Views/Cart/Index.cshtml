@@ -1,4 +1,4 @@
-﻿@model IList<CartVM>
+﻿@model List<OrderDetails>
 
 @{
   ViewData["Title"] = "Index";
@@ -43,8 +43,8 @@
         <thead>
           <tr>
             <th>@Html.DisplayNameFor(p => p[0].productId)</th>
-            <th>@Html.DisplayNameFor(p => p[0].description)</th>
-            <th>@Html.DisplayNameFor(p => p[0].price)</th>
+            <th>@Html.DisplayNameFor(p => p[0].product.description)</th>
+            <th>@Html.DisplayNameFor(p => p[0].product.price)</th>
             <th>@Html.DisplayNameFor(p => p[0].quantity)</th>
             <th></th>
           </tr>
@@ -59,8 +59,8 @@
               @Model[i].productId
               <input type="hidden" asp-for="@Model[i].productId">
               </td>
-              <td>@Model[i].description</td>
-              <td>@Model[i].price</td>
+              <td>@Model[i].product.description</td>
+              <td>@Model[i].product.price</td>
               <td>
                 <input type="text" asp-for="@Model[i].quantity">
               </td>
