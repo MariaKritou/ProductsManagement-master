@@ -15,6 +15,8 @@ namespace ProductsManagement.Models
     public Order order { get; set; }
     [SQWFieldMap("ORDER_ID")]
     public int orderId { get; set; }
+    [SQWFieldMap("CREATED_AT")]
+    public DateTime orderCreatedAt { get; set; }
 
     public Product product { get; set; }
     [SQWFieldMap("PRODUCT_ID")]

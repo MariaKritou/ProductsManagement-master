@@ -7,12 +7,12 @@
 <h2>Index</h2>
 
 
-  @*<table class="table table-bordered" id="tblProducts">
+<table class="table table-bordered" id="tblProducts">
     <thead>
       <tr>
         <th>@Html.DisplayNameFor(p => p[0].productId)</th>
-        <th>@Html.DisplayNameFor(p => p[0].description)</th>
-        <th>@Html.DisplayNameFor(p => p[0].price)</th>
+        <th>@Html.DisplayNameFor(p => p[0].productDescription)</th>
+        <th>@Html.DisplayNameFor(p => p[0].productPrice)</th>
         <th>@Html.DisplayNameFor(p => p[0].quantity)</th>
         <th></th>
       </tr>
@@ -22,8 +22,8 @@
       {
         <tr>
           <td>@product.productId</td>
-          <td>@product.description</td>
-          <td>@product.price</td>
+          <td>@product.product.description</td>
+          <td>@product.product.price</td>
           <td>@product.quantity</td>
           <td>
             <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@product.productId" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>
@@ -33,78 +33,86 @@
       }
     </tbody>
   </table>
-  <input type="submit" id="btnBuy" value="Buy All" />*@
-
- 
+  <input type="submit" id="btnBuy" value="Buy All" />
 
 
-  <form asp-controller="Cart" asp-action="BuyAll" method="post">
-      <table class="table table-bordered" id="tblProducts">
-        <thead>
-          <tr>
-            <th>@Html.DisplayNameFor(p => p[0].productId)</th>
-            <th>@Html.DisplayNameFor(p => p[0].product.description)</th>
-            <th>@Html.DisplayNameFor(p => p[0].product.price)</th>
-            <th>@Html.DisplayNameFor(p => p[0].quantity)</th>
-            <th></th>
-          </tr>
-        </thead>
 
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-          <tbody>
-            <tr>
-              <td>
-              @Model[i].productId
-              <input type="hidden" asp-for="@Model[i].productId">
-              </td>
-              <td>@Model[i].product.description</td>
-              <td>@Model[i].product.price</td>
-              <td>
-                <input type="text" asp-for="@Model[i].quantity">
-              </td>
-              <td>
-                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model[i].productId" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>
-              </td>
-            </tr>
-          </tbody>
-        }
-      </table>
-      <input type="submit" value="Buy All" />
-    </form>
+@*<form asp-controller="Cart" asp-action="BuyAll" method="post">
+  <table class="table table-bordered" id="tblProducts">
+    <thead>
+      <tr>
+        <th>@Html.DisplayNameFor(p => p[0].productId)</th>
+        <th>@Html.DisplayNameFor(p => p[0].product.description)</th>
+        <th>@Html.DisplayNameFor(p => p[0].product.price)</th>
+        <th>@Html.DisplayNameFor(p => p[0].quantity)</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
 
 
-  <script type="text/javascript">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+      <tbody>
+        <tr>
+          <td>
+            @Model[i].productId
+            <input type="hidden" asp-for="@Model[i].productId">
+          </td>
+          <td>@Model[i].product.description</td>
+          <td>@Model[i].product.price</td>
+          <td>
+            <input type="text" asp-for="@Model[i].quantity">
+          </td>
+          <td>
+            <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model[i].productId" class="btn text-danger"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    }
+  </table>
+  <input type="submit" value="Buy All" />
+</form>*@
 
 
-    $("body").on("click", "#btnBuy", function () {
-      console.log("on click");
-      //Loop through the Table rows and build a JSON array.
-      var products = new Array();
-      $("#tblProducts TBODY TR").each(function () {
-         console.log("on click 2");
-        var row = $(this);
-        var product = {};
-        product.productId = row.find("TD").eq(0).html();
-        //product.description = row.find("TD").eq(1).html();
-        //product.price = row.find("TD").eq(2).html();
-        product.quantity = row.find("TD").eq(3).html();
-        products.push(product);
-      });
-      console.log(products);
+<script type="text/javascript">
 
-      //Send the JSON array to Controller using AJAX.
-      $.ajax({
-        type: "POST",
-        url: "/Cart/BuyAll",
-        data: JSON.stringify(products),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (r) {
-          alert(r + " products inserted.");
-        }
-      });
-      console.log(JSON.stringify(products));
+
+  $("body").on("click", "#btnBuy", function () {
+    console.log("on click");
+    //Loop through the Table rows and build a JSON array.
+    var products = new Array();
+    $("#tblProducts TBODY TR").each(function () {
+      console.log("on click 2");
+      var row = $(this);
+      var product = {};
+      product.productId = row.find("TD").eq(0).html();
+      //product.description = row.find("TD").eq(1).html();
+      //product.price = row.find("TD").eq(2).html();
+      product.quantity = row.find("TD").eq(3).html();
+      products.push(product);
     });
-  </script>
+    console.log(products);
+
+    //Send the JSON array to Controller using AJAX.
+    $.ajax({
+      type: "POST",
+      url: "/Cart/BuyAll",
+      data: JSON.stringify(products),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (r) {
+        alert(r + " products inserted.");
+      }
+    });
+    console.log(JSON.stringify(products));
+  });
+</script>
+
+
+
+@*@section Scripts
+{
+  <script src="~/js/cart.js"></script>
+}*@
+

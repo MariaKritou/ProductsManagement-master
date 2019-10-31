@@ -1,0 +1,30 @@
+﻿@model List<OrderDetails>
+
+@(Html.DevExtreme().Chart()
+  .ID("chart")
+  .DataSource(Model)
+  .ArgumentAxis(a =>
+  {
+    a.ArgumentType(ChartDataType.DateTime);
+    a.AggregationInterval(VizTimeInterval.Day);
+    a.ValueMarginsEnabled(true);
+    a.TickInterval(VizTimeInterval.Day);
+  })
+  .Series(s =>
+  {
+    s.Add()
+     .ArgumentField(nameof(OrderDetails.orderCreatedAt))
+     .Aggregation(a =>
+     {
+       a.Enabled(true);
+       a.Method(ChartSeriesAggregationMethod.Sum);
+
+
+     })
+      .ValueField(nameof(OrderDetails.productPrice))
+      .Name(nameof(OrderDetails.productDescription))
+      .Type(SeriesType.Bar)
+      .Color("violet")
+      .Label(l => l.Visible(true));
+  }
+  ))

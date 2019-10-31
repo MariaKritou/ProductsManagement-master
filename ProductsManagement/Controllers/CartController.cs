@@ -127,7 +127,7 @@ namespace ProductsManagement.Controllers
 
 
     [HttpPost]
-    public IActionResult BuyAll(List<OrderDetails> orderDetails)
+    public IActionResult BuyAll([FromBody]List<OrderDetails> orderDetails)
     {
 
       var order = new Order

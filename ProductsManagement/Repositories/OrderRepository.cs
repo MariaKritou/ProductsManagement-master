@@ -100,5 +100,21 @@ namespace ProductsManagement.Repositories
 
       return orderDetails;
     }
+
+    public List<OrderDetails> getOrderDetailsByUserId(int id)
+    {
+      List<OrderDetails> orderDetails = null;
+
+      worker.run(context =>
+      {
+        orderDetails = context
+         .createSpCommand("MARIADEMO.MAIN.GET_ORDER_DETAILS_BY_USER_ID")
+          .addCursorOutParam("A_RET_VAL")
+          .addNumericInParam("A_USER_ID", id)
+          .select<OrderDetails>();
+      });
+
+      return orderDetails;
+    }
   }
 }
