@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 
-<table class="table table-bordered" id="tblProducts">
+@*<table class="table table-bordered" id="tblProducts">
     <thead>
       <tr>
         <th>@Html.DisplayNameFor(p => p[0].productId)</th>
@@ -33,12 +33,12 @@
       }
     </tbody>
   </table>
-  <input type="submit" id="btnBuy" value="Buy All" />
+  <input type="submit" id="btnBuy" value="Buy All" />*@
 
 
 
 
-@*<form asp-controller="Cart" asp-action="BuyAll" method="post">
+<form asp-controller="Cart" asp-action="BuyAll" method="post">
   <table class="table table-bordered" id="tblProducts">
     <thead>
       <tr>
@@ -72,10 +72,10 @@
     }
   </table>
   <input type="submit" value="Buy All" />
-</form>*@
+</form>
 
 
-<script type="text/javascript">
+@*<script type="text/javascript">
 
 
   $("body").on("click", "#btnBuy", function () {
@@ -93,6 +93,8 @@
       products.push(product);
     });
     console.log(products);
+    //$("#tblProducts").find("tr:not(:first)").remove();
+    
 
     //Send the JSON array to Controller using AJAX.
     $.ajax({
@@ -106,12 +108,13 @@
       }
     });
     console.log(JSON.stringify(products));
+    
     window.location.href = '/Order/OrderHistory'
   }
     
   );
   
-</script>
+</script>*@
 
 
 

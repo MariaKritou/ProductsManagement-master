@@ -127,7 +127,7 @@ namespace ProductsManagement.Controllers
 
 
     [HttpPost]
-    public IActionResult BuyAll([FromBody]List<OrderDetails> orderDetails)
+    public IActionResult BuyAll(List<OrderDetails> orderDetails)//add [FromBody] to use javascript
     {
 
       var order = new Order
@@ -141,9 +141,13 @@ namespace ProductsManagement.Controllers
 
       orderRepository.placeOrder(order);
 
+      foreach (var cookie in Request.Cookies.Keys)
+      {
+        if (cookie == ".ProductManagement.Session")
+          Response.Cookies.Delete(cookie);
+      }
 
       return Redirect("../Order/OrderHistory");
-
     }
 
 
